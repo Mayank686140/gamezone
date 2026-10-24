@@ -4,150 +4,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GameZone | Play More</title>
+<title>GameZone — Play Beyond Limits</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+:root {
+  --bg: #090b14;
+  --panel: #121625;
+  --purple: #8b5cf6;
+  --cyan: #22d3ee;
+  --muted: #a6adc5;
 }
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
+  margin: 0;
+  background: var(--bg);
+  color: #f8faff;
   font-family: Arial, sans-serif;
-  background: #0b0b16;
-  color: white;
 }
 
+a { color: inherit; text-decoration: none; }
+
 header {
+  min-height: 76px;
+  padding: 16px 6%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 22px 7%;
-  background: #121225;
-  border-bottom: 1px solid #29294b;
-  gap: 16px;
+  gap: 18px;
   flex-wrap: wrap;
+  background: #0e1120;
+  border-bottom: 1px solid #272d44;
+  position: sticky;
+  top: 0;
+  z-index: 5;
 }
 
 .logo {
-  color: #9b7bff;
-  font-size: 27px;
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--cyan);
+}
+
+.logo span { color: var(--purple); }
+
+nav {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+nav a { color: #d9def0; }
+nav a:hover { color: var(--cyan); }
+
+.hero {
+  padding: 75px 7%;
+  min-height: 350px;
+  background:
+    radial-gradient(ellipse at 80% 20%, #4c1d9560, transparent 40%),
+    radial-gradient(ellipse at 10% 90%, #0891b240, transparent 40%),
+    linear-gradient(130deg, #17152e, #0d1324);
+}
+
+.tag {
+  color: var(--cyan);
+  letter-spacing: 3px;
+  font-size: 12px;
   font-weight: bold;
 }
 
-nav a {
-  color: white;
-  text-decoration: none;
-  margin-left: 18px;
-}
-
-.hero {
-  text-align: center;
-  padding: 75px 20px;
-  background: linear-gradient(135deg, #25134e, #101a39);
-}
-
 .hero h1 {
-  font-size: clamp(32px, 6vw, 55px);
-  margin-bottom: 15px;
+  font-size: clamp(38px, 7vw, 68px);
+  line-height: 1.05;
+  margin: 18px 0;
 }
 
 .hero h1 span {
-  color: #a58aff;
+  color: var(--purple);
 }
 
 .hero p {
-  color: #d0cde5;
-  margin-bottom: 25px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 550px;
 }
 
-button, .play-link {
-  background: #7954ff;
-  color: white;
-  border: none;
+.btn {
+  display: inline-block;
+  border: 0;
   border-radius: 9px;
-  padding: 12px 20px;
+  background: linear-gradient(110deg, var(--purple), #635bff);
+  color: white;
+  padding: 13px 20px;
+  margin-top: 15px;
   cursor: pointer;
   font-size: 15px;
-  text-decoration: none;
-  display: inline-block;
+  font-weight: bold;
 }
 
-button:hover, .play-link:hover {
-  background: #997dff;
+.btn:hover { filter: brightness(1.18); }
+
+main { padding: 30px 6%; }
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 30px 0 20px;
 }
 
-main {
-  padding: 35px 7%;
-}
+.section-head h2 { margin: 0; font-size: 25px; }
+
+.muted { color: var(--muted); }
 
 .toolbar {
   display: flex;
   gap: 12px;
+  margin-bottom: 22px;
   flex-wrap: wrap;
-  margin: 22px 0;
 }
 
 input, select {
-  padding: 13px;
+  background: #141a2b;
+  border: 1px solid #303952;
   border-radius: 9px;
-  border: 1px solid #393955;
-  background: #17172a;
   color: white;
+  padding: 13px;
   font-size: 15px;
 }
 
-input {
-  flex: 1;
-  min-width: 180px;
-}
-
-h2 {
-  margin: 20px 0;
-}
+input { flex: 1; min-width: 180px; }
 
 .games {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
   gap: 20px;
 }
 
 .card {
-  background: #17172a;
-  border: 1px solid #292943;
-  border-radius: 15px;
   overflow: hidden;
-  transition: transform .2s;
+  background: var(--panel);
+  border: 1px solid #262e46;
+  border-radius: 15px;
+  transition: transform .2s, border-color .2s;
 }
 
 .card:hover {
   transform: translateY(-5px);
+  border-color: var(--purple);
 }
 
 .art {
-  min-height: 145px;
+  min-height: 155px;
   display: grid;
   place-items: center;
   font-size: 65px;
-  background: linear-gradient(135deg, #352060, #173d58);
+  background: linear-gradient(135deg, #35205f, #123e55);
 }
 
-.card-content {
-  padding: 18px;
-}
+.art.racing { background: linear-gradient(135deg, #792d36, #34205f); }
+.art.world { background: linear-gradient(135deg, #124c4c, #20265c); }
+.art.own { background: linear-gradient(135deg, #563a12, #34205f); }
 
-.card p {
-  color: #b8b8d1;
-  margin: 10px 0 17px;
+.card-content { padding: 18px; }
+.card-content h3 { margin: 0 0 10px; }
+.card-content p {
+  min-height: 38px;
+  color: var(--muted);
+  line-height: 1.5;
   font-size: 14px;
+}
+
+.small-tag {
+  display: inline-block;
+  color: var(--cyan);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .game-area {
   display: none;
   margin-top: 35px;
-  padding: 20px;
-  background: #17172a;
+  padding: 22px;
+  border: 1px solid #303952;
+  background: var(--panel);
   border-radius: 15px;
   text-align: center;
 }
@@ -158,17 +204,26 @@ canvas {
   max-width: 600px;
   margin: 20px auto;
   background: #101d36;
-  border: 2px solid #7655ff;
+  border: 2px solid var(--purple);
   border-radius: 10px;
-  touch-action: manipulation;
+  touch-action: none;
 }
 
 footer {
   text-align: center;
-  padding: 30px;
-  color: #aaaac4;
-  border-top: 1px solid #292943;
-  margin-top: 40px;
+  padding: 35px 15px;
+  border-top: 1px solid #272d44;
+  color: var(--muted);
+  margin-top: 45px;
+}
+
+footer span { color: var(--cyan); }
+
+@media (max-width: 600px) {
+  header { padding: 16px 5%; }
+  nav { gap: 12px; font-size: 14px; }
+  .hero { padding: 55px 6%; }
+  main { padding: 22px 5%; }
 }
 </style>
 </head>
@@ -176,158 +231,164 @@ footer {
 <body>
 
 <header>
-  <div class="logo">🎮 GameZone</div>
+  <a href="#home" class="logo">🎮 Game<span>Zone</span></a>
   <nav>
     <a href="#home">Home</a>
     <a href="#games">Games</a>
-    <a href="#mygame">My Game</a>
+    <a href="#mygames">My Games</a>
   </nav>
 </header>
 
 <section class="hero" id="home">
-  <h1>Level Up Your <span>Gaming!</span></h1>
-  <p>Discover games. Play online. Create your own world.</p>
-  <a href="#games" class="play-link">Explore Games →</a>
+  <div class="tag">YOUR NEXT GAMING DESTINATION</div>
+  <h1>PLAY MORE.<br><span>LEVEL UP.</span></h1>
+  <p>
+    Discover browser games, beat your high scores,
+    and explore games created by independent developers.
+  </p>
+  <a class="btn" href="#games">EXPLORE GAMES →</a>
 </section>
 
 <main>
   <section id="games">
-    <h2>🔥 Explore Games</h2>
+    <div class="section-head">
+      <h2>🔥 Game Library</h2>
+      <span class="muted" id="gameCount">4 games</span>
+    </div>
 
     <div class="toolbar">
-      <input id="search" type="text"
-        placeholder="Search games..."
+      <input id="search" placeholder="🔍 Search games..."
         aria-label="Search games">
-
-      <select id="category" aria-label="Game category">
-        <option value="all">All Games</option>
+      <select id="category" aria-label="Filter games">
+        <option value="all">All Categories</option>
         <option value="arcade">Arcade</option>
         <option value="racing">Racing</option>
-        <option value="online">Online Games</option>
+        <option value="adventure">Adventure</option>
       </select>
     </div>
 
     <div class="games" id="gameList">
-
       <article class="card" data-category="arcade">
-        <div class="art">🌟</div>
+        <div class="art">⭐</div>
         <div class="card-content">
+          <span class="small-tag">Arcade · Playable</span>
           <h3>Neon Star Runner</h3>
-          <p>Collect stars and beat your high score!</p>
-          <button onclick="startGame()">Play Now</button>
+          <p>Collect stars and increase your score.</p>
+          <button class="btn" onclick="startGame()">PLAY NOW</button>
         </div>
       </article>
 
       <article class="card" data-category="racing">
-        <div class="art">🏎️</div>
+        <div class="art racing">🏎️</div>
         <div class="card-content">
+          <span class="small-tag">Racing</span>
           <h3>Speed Racing</h3>
-          <p>Your next racing game can go here.</p>
-          <button onclick="showMessage()">Coming Soon</button>
+          <p>A place for your own browser racing game.</p>
+          <button class="btn" onclick="comingSoon()">COMING SOON</button>
         </div>
       </article>
 
-      <article class="card" data-category="online">
-        <div class="art">🌐</div>
+      <article class="card" data-category="adventure">
+        <div class="art world">🌍</div>
         <div class="card-content">
-          <h3>Browser Games</h3>
-          <p>Explore browser games on itch.io.</p>
-          <a class="play-link"
-            href="https://itch.io/games/html5"
-            target="_blank" rel="noopener noreferrer">
-            Explore Games
-          </a>
+          <span class="small-tag">Adventure</span>
+          <h3>Adventure World</h3>
+          <p>Explore new worlds in future releases.</p>
+          <button class="btn" onclick="comingSoon()">COMING SOON</button>
         </div>
       </article>
 
-      <article class="card" data-category="arcade">
-        <div class="art">🕹️</div>
+      <article class="card" data-category="arcade" id="mygames">
+        <div class="art own">🕹️</div>
         <div class="card-content">
+          <span class="small-tag">Developer Collection</span>
           <h3>My Own Games</h3>
-          <p>More games made by me, coming soon.</p>
-          <button onclick="showMessage()">Coming Soon</button>
+          <p>Your original games will appear here.</p>
+          <button class="btn" onclick="comingSoon()">COMING SOON</button>
         </div>
       </article>
-
     </div>
+    <p id="noResults" class="muted" hidden>No games found.</p>
   </section>
 
-  <section class="game-area" id="mygame">
-    <h2>🌟 Neon Star Runner</h2>
-    <p id="instructions">
-      Move with ← → keys. Collect the falling stars!
+  <section class="game-area" id="gameArea">
+    <h2>⭐ Neon Star Runner</h2>
+    <p class="muted">
+      Move using ← → keys, or tap the game to move.
+      Collect stars!
     </p>
-    <p>Score: <strong id="score">0</strong></p>
-    <canvas id="gameCanvas"
-      width="600" height="350"
-      aria-label="Neon Star Runner game"></canvas>
-    <button onclick="startGame()">Restart Game</button>
-    <p id="status" style="margin-top:15px"></p>
+    <h3>Score: <span id="score">0</span></h3>
+    <canvas id="board" width="600" height="350"></canvas>
+    <button class="btn" onclick="startGame()">RESTART</button>
+    <p id="status" class="muted" aria-live="polite"></p>
   </section>
 </main>
 
 <footer>
-  © 2026 GameZone | Made with ❤️ by You
+  <p>© 2026 <span>GameZone</span> — Built by an independent creator.</p>
+  <p>Play fair. Keep creating. Keep leveling up.</p>
 </footer>
 
 <script>
 const search = document.getElementById("search");
 const category = document.getElementById("category");
-const cards = [...document.querySelectorAll(".card")];
+const cards = [...document.querySelectorAll("#gameList .card")];
 
 function filterGames() {
-  const query = search.value.toLowerCase().trim();
+  const q = search.value.toLowerCase().trim();
+  let visible = 0;
 
   cards.forEach(card => {
-    const matchesName =
-      card.innerText.toLowerCase().includes(query);
-
-    const matchesCategory =
+    const matchText = card.innerText.toLowerCase().includes(q);
+    const matchCategory =
       category.value === "all" ||
       card.dataset.category === category.value;
 
-    card.style.display =
-      matchesName && matchesCategory ? "" : "none";
+    const show = matchText && matchCategory;
+    card.hidden = !show;
+    if (show) visible++;
   });
+
+  document.getElementById("gameCount").textContent =
+    visible + (visible === 1 ? " game" : " games");
+
+  document.getElementById("noResults").hidden = visible !== 0;
 }
 
 search.addEventListener("input", filterGames);
 category.addEventListener("change", filterGames);
 
-function showMessage() {
-  alert("This game will be added soon!");
+function comingSoon() {
+  alert("This game has not been added yet. Stay tuned!");
 }
 
-// Small playable game
-const canvas = document.getElementById("gameCanvas");
+const canvas = document.getElementById("board");
 const ctx = canvas.getContext("2d");
-const area = document.getElementById("mygame");
-const scoreText = document.getElementById("score");
-const statusText = document.getElementById("status");
+const area = document.getElementById("gameArea");
+const scoreEl = document.getElementById("score");
+const statusEl = document.getElementById("status");
 
-let player, stars, score, running, animation;
+let player, stars, score, running = false, frame = 0;
 const keys = {};
 
 function startGame() {
-  cancelAnimationFrame(animation);
-
+  cancelAnimationFrame(frame);
   area.style.display = "block";
   area.scrollIntoView({ behavior: "smooth" });
 
-  player = { x: 280, y: 300, size: 28 };
+  player = { x: 285, y: 300, size: 25 };
   stars = [];
   score = 0;
   running = true;
-
-  scoreText.textContent = score;
-  statusText.textContent = "Game running! Collect the stars.";
+  scoreEl.textContent = "0";
+  statusEl.textContent = "Game running! Collect the stars.";
   draw();
 }
 
 document.addEventListener("keydown", e => {
-  if (["ArrowLeft", "ArrowRight"].includes(e.key)) {
-    e.preventDefault();
+  if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
     keys[e.key] = true;
+    if (running) e.preventDefault();
   }
 });
 
@@ -335,17 +396,12 @@ document.addEventListener("keyup", e => {
   keys[e.key] = false;
 });
 
-// Tap or click on the game to move
 canvas.addEventListener("pointerdown", e => {
   if (!running) return;
-
   const rect = canvas.getBoundingClientRect();
-  const x = (e.clientX - rect.left) *
-    canvas.width / rect.width;
-
+  const x = (e.clientX - rect.left) * canvas.width / rect.width;
   player.x = Math.max(0, Math.min(
-    canvas.width - player.size,
-    x - player.size / 2
+    canvas.width - player.size, x - player.size / 2
   ));
 });
 
@@ -354,58 +410,49 @@ function draw() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Player movement
   if (keys.ArrowLeft) player.x -= 5;
   if (keys.ArrowRight) player.x += 5;
-
   player.x = Math.max(0, Math.min(
     canvas.width - player.size, player.x
   ));
 
-  // Spawn stars
   if (Math.random() < 0.035) {
     stars.push({
       x: Math.random() * (canvas.width - 20),
       y: -20,
-      size: 18,
       speed: 2 + Math.random() * 2
     });
   }
 
-  // Draw player
-  ctx.fillStyle = "#9b7bff";
-  ctx.fillRect(player.x, player.y,
-    player.size, player.size);
+  ctx.fillStyle = "#8b5cf6";
+  ctx.fillRect(player.x, player.y, player.size, player.size);
 
-  ctx.fillStyle = "#ffffff";
   ctx.font = "17px Arial";
+  ctx.fillStyle = "white";
   ctx.fillText("YOU", player.x - 2, player.y - 8);
 
-  // Draw and collect stars
   stars = stars.filter(star => {
     star.y += star.speed;
-
     ctx.font = "22px Arial";
     ctx.fillText("⭐", star.x, star.y);
 
     const hit =
-      player.x < star.x + star.size &&
+      player.x < star.x + 18 &&
       player.x + player.size > star.x &&
       player.y < star.y &&
-      player.y + player.size > star.y - star.size;
+      player.y + player.size > star.y - 18;
 
     if (hit) {
       score++;
-      scoreText.textContent = score;
+      scoreEl.textContent = score;
       return false;
     }
 
     return star.y < canvas.height + 25;
   });
 
-  animation = requestAnimationFrame(draw);
+  frame = requestAnimationFrame(draw);
 }
-
 </script>
 </body>
 </html>
