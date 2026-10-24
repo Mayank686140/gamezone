@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GameZone | Play More</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0b0b16;
+  color: white;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 7%;
+  background: #121225;
+  border-bottom: 1px solid #29294b;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  color: #9b7bff;
+  font-size: 27px;
+  font-weight: bold;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 18px;
+}
+
+.hero {
+  text-align: center;
+  padding: 75px 20px;
+  background: linear-gradient(135deg, #25134e, #101a39);
+}
+
+.hero h1 {
+  font-size: clamp(32px, 6vw, 55px);
+  margin-bottom: 15px;
+}
+
+.hero h1 span {
+  color: #a58aff;
+}
+
+.hero p {
+  color: #d0cde5;
+  margin-bottom: 25px;
+}
+
+button, .play-link {
+  background: #7954ff;
+  color: white;
+  border: none;
+  border-radius: 9px;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button:hover, .play-link:hover {
+  background: #997dff;
+}
+
+main {
+  padding: 35px 7%;
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 22px 0;
+}
+
+input, select {
+  padding: 13px;
+  border-radius: 9px;
+  border: 1px solid #393955;
+  background: #17172a;
+  color: white;
+  font-size: 15px;
+}
+
+input {
+  flex: 1;
+  min-width: 180px;
+}
+
+h2 {
+  margin: 20px 0;
+}
+
+.games {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #17172a;
+  border: 1px solid #292943;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform .2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.art {
+  min-height: 145px;
+  display: grid;
+  place-items: center;
+  font-size: 65px;
+  background: linear-gradient(135deg, #352060, #173d58);
+}
+
+.card-content {
+  padding: 18px;
+}
+
+.card p {
+  color: #b8b8d1;
+  margin: 10px 0 17px;
+  font-size: 14px;
+}
+
+.game-area {
+  display: none;
+  margin-top: 35px;
+  padding: 20px;
+  background: #17172a;
+  border-radius: 15px;
+  text-align: center;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  background: #101d36;
+  border: 2px solid #7655ff;
+  border-radius: 10px;
+  touch-action: manipulation;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  color: #aaaac4;
+  border-top: 1px solid #292943;
+  margin-top: 40px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🎮 GameZone</div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#games">Games</a>
+    <a href="#mygame">My Game</a>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <h1>Level Up Your <span>Gaming!</span></h1>
+  <p>Discover games. Play online. Create your own world.</p>
+  <a href="#games" class="play-link">Explore Games →</a>
+</section>
+
+<main>
+  <section id="games">
+    <h2>🔥 Explore Games</h2>
+
+    <div class="toolbar">
+      <input id="search" type="text"
+        placeholder="Search games..."
+        aria-label="Search games">
+
+      <select id="category" aria-label="Game category">
+        <option value="all">All Games</option>
+        <option value="arcade">Arcade</option>
+        <option value="racing">Racing</option>
+        <option value="online">Online Games</option>
+      </select>
+    </div>
+
+    <div class="games" id="gameList">
+
+      <article class="card" data-category="arcade">
+        <div class="art">🌟</div>
+        <div class="card-content">
+          <h3>Neon Star Runner</h3>
+          <p>Collect stars and beat your high score!</p>
+          <button onclick="startGame()">Play Now</button>
+        </div>
+      </article>
+
+      <article class="card" data-category="racing">
+        <div class="art">🏎️</div>
+        <div class="card-content">
+          <h3>Speed Racing</h3>
+          <p>Your next racing game can go here.</p>
+          <button onclick="showMessage()">Coming Soon</button>
+        </div>
+      </article>
+
+      <article class="card" data-category="online">
+        <div class="art">🌐</div>
+        <div class="card-content">
+          <h3>Browser Games</h3>
+          <p>Explore browser games on itch.io.</p>
+          <a class="play-link"
+            href="https://itch.io/games/html5"
+            target="_blank" rel="noopener noreferrer">
+            Explore Games
+          </a>
+        </div>
+      </article>
+
+      <article class="card" data-category="arcade">
+        <div class="art">🕹️</div>
+        <div class="card-content">
+          <h3>My Own Games</h3>
+          <p>More games made by me, coming soon.</p>
+          <button onclick="showMessage()">Coming Soon</button>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="game-area" id="mygame">
+    <h2>🌟 Neon Star Runner</h2>
+    <p id="instructions">
+      Move with ← → keys. Collect the falling stars!
+    </p>
+    <p>Score: <strong id="score">0</strong></p>
+    <canvas id="gameCanvas"
+      width="600" height="350"
+      aria-label="Neon Star Runner game"></canvas>
+    <button onclick="startGame()">Restart Game</button>
+    <p id="status" style="margin-top:15px"></p>
+  </section>
+</main>
+
+<footer>
+  © 2026 GameZone | Made with ❤️ by You
+</footer>
+
+<script>
+const search = document.getElementById("search");
+const category = document.getElementById("category");
+const cards = [...document.querySelectorAll(".card")];
+
+function filterGames() {
+  const query = search.value.toLowerCase().trim();
+
+  cards.forEach(card => {
+    const matchesName =
+      card.innerText.toLowerCase().includes(query);
+
+    const matchesCategory =
+      category.value === "all" ||
+      card.dataset.category === category.value;
+
+    card.style.display =
+      matchesName && matchesCategory ? "" : "none";
+  });
+}
+
+search.addEventListener("input", filterGames);
+category.addEventListener("change", filterGames);
+
+function showMessage() {
+  alert("This game will be added soon!");
+}
+
+// Small playable game
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+const area = document.getElementById("mygame");
+const scoreText = document.getElementById("score");
+const statusText = document.getElementById("status");
+
+let player, stars, score, running, animation;
+const keys = {};
+
+function startGame() {
+  cancelAnimationFrame(animation);
+
+  area.style.display = "block";
+  area.scrollIntoView({ behavior: "smooth" });
+
+  player = { x: 280, y: 300, size: 28 };
+  stars = [];
+  score = 0;
+  running = true;
+
+  scoreText.textContent = score;
+  statusText.textContent = "Game running! Collect the stars.";
+  draw();
+}
+
+document.addEventListener("keydown", e => {
+  if (["ArrowLeft", "ArrowRight"].includes(e.key)) {
+    e.preventDefault();
+    keys[e.key] = true;
+  }
+});
+
+document.addEventListener("keyup", e => {
+  keys[e.key] = false;
+});
+
+// Tap or click on the game to move
+canvas.addEventListener("pointerdown", e => {
+  if (!running) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const x = (e.clientX - rect.left) *
+    canvas.width / rect.width;
+
+  player.x = Math.max(0, Math.min(
+    canvas.width - player.size,
+    x - player.size / 2
+  ));
+});
+
+function draw() {
+  if (!running) return;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Player movement
+  if (keys.ArrowLeft) player.x -= 5;
+  if (keys.ArrowRight) player.x += 5;
+
+  player.x = Math.max(0, Math.min(
+    canvas.width - player.size, player.x
+  ));
+
+  // Spawn stars
+  if (Math.random() < 0.035) {
+    stars.push({
+      x: Math.random() * (canvas.width - 20),
+      y: -20,
+      size: 18,
+      speed: 2 + Math.random() * 2
+    });
+  }
+
+  // Draw player
+  ctx.fillStyle = "#9b7bff";
+  ctx.fillRect(player.x, player.y,
+    player.size, player.size);
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "17px Arial";
+  ctx.fillText("YOU", player.x - 2, player.y - 8);
+
+  // Draw and collect stars
+  stars = stars.filter(star => {
+    star.y += star.speed;
+
+    ctx.font = "22px Arial";
+    ctx.fillText("⭐", star.x, star.y);
+
+    const hit =
+      player.x < star.x + star.size &&
+      player.x + player.size > star.x &&
+      player.y < star.y &&
+      player.y + player.size > star.y - star.size;
+
+    if (hit) {
+      score++;
+      scoreText.textContent = score;
+      return false;
+    }
+
+    return star.y < canvas.height + 25;
+  });
+
+  animation = requestAnimationFrame(draw);
+}
+
+</script>
+</body>
+</html>
