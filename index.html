@@ -209,6 +209,34 @@ canvas {
   touch-action: none;
 }
 
+.external-player {
+  display: none;
+  margin-top: 28px;
+  padding: 20px;
+  background: var(--panel);
+  border: 1px solid #303952;
+  border-radius: 15px;
+  text-align: center;
+}
+.external-player iframe {
+  display: block;
+  width: 100%;
+  height: min(72vh, 650px);
+  min-height: 420px;
+  border: 0;
+  border-radius: 10px;
+  background: #080b13;
+}
+.player-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+.player-top h2 { margin: 0; }
+
 footer {
   text-align: center;
   padding: 35px 15px;
@@ -253,7 +281,7 @@ footer span { color: var(--cyan); }
   <section id="games">
     <div class="section-head">
       <h2>🔥 Game Library</h2>
-      <span class="muted" id="gameCount">4 games</span>
+      <span class="muted" id="gameCount">12 games</span>
     </div>
 
     <div class="toolbar">
@@ -281,20 +309,100 @@ footer span { color: var(--cyan); }
       <article class="card" data-category="racing">
         <div class="art racing">🏎️</div>
         <div class="card-content">
-          <span class="small-tag">Racing</span>
-          <h3>Speed Racing</h3>
-          <p>A place for your own browser racing game.</p>
-          <button class="btn" onclick="comingSoon()">COMING SOON</button>
+          <span class="small-tag">Racing · Browser</span>
+          <h3>Drive Fury</h3>
+          <p>Drive fast cars through city traffic.</p>
+          <button class="btn" onclick="playExternalGame('https://gamezipper.com/drive-fury/?utm_source=embed','Drive Fury')">PLAY NOW</button>
         </div>
       </article>
 
       <article class="card" data-category="adventure">
-        <div class="art world">🌍</div>
+        <div class="art world">🧗</div>
         <div class="card-content">
-          <span class="small-tag">Adventure</span>
-          <h3>Adventure World</h3>
-          <p>Explore new worlds in future releases.</p>
-          <button class="btn" onclick="comingSoon()">COMING SOON</button>
+          <span class="small-tag">Adventure · Platformer</span>
+          <h3>Level Devil</h3>
+          <p>Jump, dodge traps and try to reach the exit.</p>
+          <button class="btn" onclick="playExternalGame('https://gamezipper.com/level-devil/?utm_source=embed','Level Devil')">PLAY NOW</button>
+        </div>
+      </article>
+
+      <article class="card" data-category="arcade">
+        <div class="art">🐍</div>
+        <div class="card-content">
+          <span class="small-tag">Arcade · Classic</span>
+          <h3>Classic Snake</h3>
+          <p>Eat food, grow longer and avoid your tail.</p>
+          <button class="btn" onclick="playExternalGame('https://gamezipper.com/snake/?utm_source=embed','Classic Snake')">PLAY NOW</button>
+        </div>
+      </article>
+
+      <article class="card" data-category="arcade">
+        <div class="art">🔢</div>
+        <div class="card-content">
+          <span class="small-tag">Puzzle · Numbers</span>
+          <h3>2048 Galaxy</h3>
+          <p>Combine number tiles and aim for 2048.</p>
+          <button class="btn" onclick="playExternalGame('https://gamezipper.com/2048/?utm_source=embed','2048 Galaxy')">PLAY NOW</button>
+        </div>
+      </article>
+
+      <article class="card" data-category="arcade">
+        <div class="art">🧱</div>
+        <div class="card-content">
+          <span class="small-tag">Arcade · Classic</span>
+          <h3>Tetris</h3>
+          <p>Fit falling blocks together to clear lines.</p>
+          <button class="btn" onclick="playExternalGame('https://gamezipper.com/tetris/?utm_source=embed','Tetris')">PLAY NOW</button>
+        </div>
+      </article>
+
+      <article class="card" data-category="arcade">
+        <div class="art">🏓</div>
+        <div class="card-content">
+          <span class="small-tag">Arcade · Classic</span>
+          <h3>Pong</h3>
+          <p>Keep the ball in play and beat your opponent.</p>
+          <button class="btn" onclick="playExternalGame('https://gamezipper.com/pong/?utm_source=embed','Pong')">PLAY NOW</button>
+        </div>
+      </article>
+
+      <article class="card" data-category="arcade">
+        <div class="art">🟠</div>
+        <div class="card-content">
+          <span class="small-tag">Arcade · Reflex</span>
+          <h3>Slope</h3>
+          <p>Guide a rolling ball and avoid obstacles.</p>
+          <button class="btn" onclick="playExternalGame('https://gamezipper.com/slope/?utm_source=embed','Slope')">PLAY NOW</button>
+        </div>
+      </article>
+
+      <article class="card" data-category="arcade">
+        <div class="art">🧱</div>
+        <div class="card-content">
+          <span class="small-tag">Arcade · Classic</span>
+          <h3>Brick Breaker</h3>
+          <p>Bounce the ball to break all the bricks.</p>
+          <button class="btn" onclick="playExternalGame('https://gamezipper.com/brick-breaker/?utm_source=embed','Brick Breaker')">PLAY NOW</button>
+        </div>
+      </article>
+
+      <article class="card" data-category="arcade">
+        <div class="art">🫧</div>
+        <div class="card-content">
+          <span class="small-tag">Arcade · Puzzle</span>
+          <h3>Bubble Shooter</h3>
+          <p>Match bubbles of the same colour to pop them.</p>
+          <button class="btn" onclick="playExternalGame('https://gamezipper.com/bubble-shooter/?utm_source=embed','Bubble Shooter')">PLAY NOW</button>
+        </div>
+      </article>
+
+      <article class="card" data-category="arcade">
+        <div class="art">🚗</div>
+        <div class="card-content">
+          <span class="small-tag">Puzzle · Cars</span>
+          <h3>Parking Jam</h3>
+          <p>Move cars in the right order to clear the way.</p>
+          <button class="btn" onclick="playExternalGame('https://gamezipper.com/parking-jam/?utm_source=embed','Parking Jam')">PLAY NOW</button>
         </div>
       </article>
 
@@ -322,6 +430,17 @@ footer span { color: var(--cyan); }
     <button class="btn" onclick="startGame()">RESTART</button>
     <p id="status" class="muted" aria-live="polite"></p>
   </section>
+
+  <section class="external-player" id="externalPlayer">
+    <div class="player-top">
+      <h2 id="externalTitle">Game Player</h2>
+      <button class="btn" onclick="closeExternalGame()">CLOSE GAME ✕</button>
+    </div>
+    <p class="muted">Game hosted by its publisher. If it does not load, open the game from its original website.</p>
+    <iframe id="externalFrame" title="Selected browser game" src="about:blank"
+      allow="autoplay; fullscreen; gamepad" allowfullscreen loading="lazy"
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </section>
 </main>
 
 <footer>
@@ -330,6 +449,20 @@ footer span { color: var(--cyan); }
 </footer>
 
 <script>
+function playExternalGame(url, title) {
+  const player = document.getElementById("externalPlayer");
+  const frame = document.getElementById("externalFrame");
+  document.getElementById("externalTitle").textContent = title;
+  frame.src = url;
+  player.style.display = "block";
+  player.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function closeExternalGame() {
+  document.getElementById("externalFrame").src = "about:blank";
+  document.getElementById("externalPlayer").style.display = "none";
+}
+
 const search = document.getElementById("search");
 const category = document.getElementById("category");
 const cards = [...document.querySelectorAll("#gameList .card")];
