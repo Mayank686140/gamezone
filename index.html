@@ -1,591 +1,77 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GameZone — Play Beyond Limits</title>
-
 <style>
-:root {
-  --bg: #090b14;
-  --panel: #121625;
-  --purple: #8b5cf6;
-  --cyan: #22d3ee;
-  --muted: #a6adc5;
-}
-
-* { box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: #f8faff;
-  font-family: Arial, sans-serif;
-}
-
-a { color: inherit; text-decoration: none; }
-
-header {
-  min-height: 76px;
-  padding: 16px 6%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-  background: #0e1120;
-  border-bottom: 1px solid #272d44;
-  position: sticky;
-  top: 0;
-  z-index: 5;
-}
-
-.logo {
-  font-size: 26px;
-  font-weight: 900;
-  color: var(--cyan);
-}
-
-.logo span { color: var(--purple); }
-
-nav {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-nav a { color: #d9def0; }
-nav a:hover { color: var(--cyan); }
-
-.hero {
-  padding: 75px 7%;
-  min-height: 350px;
-  background:
-    radial-gradient(ellipse at 80% 20%, #4c1d9560, transparent 40%),
-    radial-gradient(ellipse at 10% 90%, #0891b240, transparent 40%),
-    linear-gradient(130deg, #17152e, #0d1324);
-}
-
-.tag {
-  color: var(--cyan);
-  letter-spacing: 3px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.hero h1 {
-  font-size: clamp(38px, 7vw, 68px);
-  line-height: 1.05;
-  margin: 18px 0;
-}
-
-.hero h1 span {
-  color: var(--purple);
-}
-
-.hero p {
-  color: var(--muted);
-  line-height: 1.7;
-  max-width: 550px;
-}
-
-.btn {
-  display: inline-block;
-  border: 0;
-  border-radius: 9px;
-  background: linear-gradient(110deg, var(--purple), #635bff);
-  color: white;
-  padding: 13px 20px;
-  margin-top: 15px;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-.btn:hover { filter: brightness(1.18); }
-
-main { padding: 30px 6%; }
-
-.section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin: 30px 0 20px;
-}
-
-.section-head h2 { margin: 0; font-size: 25px; }
-
-.muted { color: var(--muted); }
-
-.toolbar {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 22px;
-  flex-wrap: wrap;
-}
-
-input, select {
-  background: #141a2b;
-  border: 1px solid #303952;
-  border-radius: 9px;
-  color: white;
-  padding: 13px;
-  font-size: 15px;
-}
-
-input { flex: 1; min-width: 180px; }
-
-.games {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
-  gap: 20px;
-}
-
-.card {
-  overflow: hidden;
-  background: var(--panel);
-  border: 1px solid #262e46;
-  border-radius: 15px;
-  transition: transform .2s, border-color .2s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  border-color: var(--purple);
-}
-
-.art {
-  min-height: 155px;
-  display: grid;
-  place-items: center;
-  font-size: 65px;
-  background: linear-gradient(135deg, #35205f, #123e55);
-}
-
-.art.racing { background: linear-gradient(135deg, #792d36, #34205f); }
-.art.world { background: linear-gradient(135deg, #124c4c, #20265c); }
-.art.own { background: linear-gradient(135deg, #563a12, #34205f); }
-
-.card-content { padding: 18px; }
-.card-content h3 { margin: 0 0 10px; }
-.card-content p {
-  min-height: 38px;
-  color: var(--muted);
-  line-height: 1.5;
-  font-size: 14px;
-}
-
-.small-tag {
-  display: inline-block;
-  color: var(--cyan);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.game-area {
-  display: none;
-  margin-top: 35px;
-  padding: 22px;
-  border: 1px solid #303952;
-  background: var(--panel);
-  border-radius: 15px;
-  text-align: center;
-}
-
-canvas {
-  display: block;
-  width: 100%;
-  max-width: 600px;
-  margin: 20px auto;
-  background: #101d36;
-  border: 2px solid var(--purple);
-  border-radius: 10px;
-  touch-action: none;
-}
-
-.external-player {
-  display: none;
-  margin-top: 28px;
-  padding: 20px;
-  background: var(--panel);
-  border: 1px solid #303952;
-  border-radius: 15px;
-  text-align: center;
-}
-.external-player iframe {
-  display: block;
-  width: 100%;
-  height: min(72vh, 650px);
-  min-height: 420px;
-  border: 0;
-  border-radius: 10px;
-  background: #080b13;
-}
-.player-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 15px;
-}
-.player-top h2 { margin: 0; }
-
-footer {
-  text-align: center;
-  padding: 35px 15px;
-  border-top: 1px solid #272d44;
-  color: var(--muted);
-  margin-top: 45px;
-}
-
-footer span { color: var(--cyan); }
-
-@media (max-width: 600px) {
-  header { padding: 16px 5%; }
-  nav { gap: 12px; font-size: 14px; }
-  .hero { padding: 55px 6%; }
-  main { padding: 22px 5%; }
-}
+:root{--bg:#090b14;--panel:#121625;--purple:#8b5cf6;--cyan:#22d3ee;--muted:#a6adc5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:#f8faff;font-family:Arial,sans-serif}
+a{color:inherit;text-decoration:none}header{min-height:76px;padding:16px 6%;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;background:#0e1120;border-bottom:1px solid #272d44;position:sticky;top:0;z-index:5}
+.logo{font-size:26px;font-weight:900;color:var(--cyan)}.logo span{color:var(--purple)}nav{display:flex;gap:20px;flex-wrap:wrap}nav a{color:#d9def0}nav a:hover{color:var(--cyan)}
+.hero{padding:70px 7%;min-height:330px;background:radial-gradient(ellipse at 80% 20%,#4c1d9560,transparent 40%),radial-gradient(ellipse at 10% 90%,#0891b240,transparent 40%),linear-gradient(130deg,#17152e,#0d1324)}
+.tag{color:var(--cyan);letter-spacing:3px;font-size:12px;font-weight:bold}.hero h1{font-size:clamp(38px,7vw,68px);line-height:1.05;margin:18px 0}.hero h1 span{color:var(--purple)}.hero p{color:var(--muted);line-height:1.7;max-width:550px}
+.btn{display:inline-block;border:0;border-radius:9px;background:linear-gradient(110deg,var(--purple),#635bff);color:white;padding:12px 18px;margin-top:10px;cursor:pointer;font-size:14px;font-weight:bold}.btn:hover{filter:brightness(1.18)}
+main{padding:25px 6%}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:25px 0 20px}.section-head h2{margin:0;font-size:25px}.muted{color:var(--muted)}
+.toolbar{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}input,select{background:#141a2b;border:1px solid #303952;border-radius:9px;color:white;padding:13px;font-size:15px}input{flex:1;min-width:180px}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:18px}.card{overflow:hidden;background:var(--panel);border:1px solid #262e46;border-radius:15px;transition:transform .2s,border-color .2s}.card:hover{transform:translateY(-4px);border-color:var(--purple)}
+.art{min-height:135px;display:grid;place-items:center;font-size:60px;background:linear-gradient(135deg,#35205f,#123e55)}.art.racing{background:linear-gradient(135deg,#792d36,#34205f)}.art.world{background:linear-gradient(135deg,#124c4c,#20265c)}.card-content{padding:17px}.card-content h3{margin:0 0 8px}.card-content p{min-height:38px;color:var(--muted);line-height:1.5;font-size:14px}.small-tag{display:inline-block;color:var(--cyan);font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.game-area{display:none;margin-top:30px;padding:22px;border:1px solid #303952;background:var(--panel);border-radius:15px;text-align:center}.game-area h2{margin-top:4px}
+canvas{display:block;width:100%;max-width:600px;margin:18px auto;background:#101d36;border:2px solid var(--purple);border-radius:10px;touch-action:none}
+.game-board{display:grid;gap:8px;max-width:420px;margin:18px auto}.board-2048{grid-template-columns:repeat(4,1fr);background:#29243d;padding:8px;border-radius:12px}.tile{aspect-ratio:1;display:grid;place-items:center;border-radius:7px;background:#34364d;font-size:clamp(18px,4vw,28px);font-weight:bold}.tile.v2{background:#d9d1ff;color:#28213f}.tile.v4{background:#b8a5ff;color:#28213f}.tile.v8{background:#9270f5}.tile.v16,.tile.v32{background:#6d5ae6}.tile.v64,.tile.v128,.tile.v256,.tile.v512,.tile.v1024,.tile.v2048{background:#22d3ee;color:#09121c}
+.tic-board{grid-template-columns:repeat(3,1fr);max-width:300px}.tic-cell{aspect-ratio:1;border:1px solid #4a456a;border-radius:10px;background:#1b2034;color:white;font-size:42px;cursor:pointer}.memory-board{grid-template-columns:repeat(4,1fr);max-width:400px}.memory-card{aspect-ratio:1;border:1px solid #4a456a;border-radius:10px;background:#272344;color:white;font-size:30px;cursor:pointer}
+.reaction-pad{max-width:600px;min-height:180px;margin:18px auto;border:2px solid #3b4260;border-radius:12px;display:grid;place-items:center;background:#20253b;font-size:22px;font-weight:bold;cursor:pointer;padding:20px}.reaction-pad.ready{background:#16764b}.reaction-pad.wait{background:#8b3046}
+footer{text-align:center;padding:32px 15px;border-top:1px solid #272d44;color:var(--muted);margin-top:40px}footer span{color:var(--cyan)}
+@media(max-width:600px){header{padding:16px 5%}nav{gap:12px;font-size:14px}.hero{padding:48px 6%}main{padding:20px 5%}.game-area{padding:13px}}
 </style>
 </head>
-
 <body>
-
-<header>
-  <a href="#home" class="logo">🎮 Game<span>Zone</span></a>
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#games">Games</a>
-    <a href="#mygames">My Games</a>
-  </nav>
-</header>
-
-<section class="hero" id="home">
-  <div class="tag">YOUR NEXT GAMING DESTINATION</div>
-  <h1>PLAY MORE.<br><span>LEVEL UP.</span></h1>
-  <p>
-    Discover browser games, beat your high scores,
-    and explore games created by independent developers.
-  </p>
-  <a class="btn" href="#games">EXPLORE GAMES →</a>
-</section>
-
-<main>
-  <section id="games">
-    <div class="section-head">
-      <h2>🔥 Game Library</h2>
-      <span class="muted" id="gameCount">12 games</span>
-    </div>
-
-    <div class="toolbar">
-      <input id="search" placeholder="🔍 Search games..."
-        aria-label="Search games">
-      <select id="category" aria-label="Filter games">
-        <option value="all">All Categories</option>
-        <option value="arcade">Arcade</option>
-        <option value="racing">Racing</option>
-        <option value="adventure">Adventure</option>
-      </select>
-    </div>
-
-    <div class="games" id="gameList">
-      <article class="card" data-category="arcade">
-        <div class="art">⭐</div>
-        <div class="card-content">
-          <span class="small-tag">Arcade · Playable</span>
-          <h3>Neon Star Runner</h3>
-          <p>Collect stars and increase your score.</p>
-          <button class="btn" onclick="startGame()">PLAY NOW</button>
-        </div>
-      </article>
-
-      <article class="card" data-category="racing">
-        <div class="art racing">🏎️</div>
-        <div class="card-content">
-          <span class="small-tag">Racing · Browser</span>
-          <h3>Drive Fury</h3>
-          <p>Drive fast cars through city traffic.</p>
-          <button class="btn" onclick="playExternalGame('https://gamezipper.com/drive-fury/?utm_source=embed','Drive Fury')">PLAY NOW</button>
-        </div>
-      </article>
-
-      <article class="card" data-category="adventure">
-        <div class="art world">🧗</div>
-        <div class="card-content">
-          <span class="small-tag">Adventure · Platformer</span>
-          <h3>Level Devil</h3>
-          <p>Jump, dodge traps and try to reach the exit.</p>
-          <button class="btn" onclick="playExternalGame('https://gamezipper.com/level-devil/?utm_source=embed','Level Devil')">PLAY NOW</button>
-        </div>
-      </article>
-
-      <article class="card" data-category="arcade">
-        <div class="art">🐍</div>
-        <div class="card-content">
-          <span class="small-tag">Arcade · Classic</span>
-          <h3>Classic Snake</h3>
-          <p>Eat food, grow longer and avoid your tail.</p>
-          <button class="btn" onclick="playExternalGame('https://gamezipper.com/snake/?utm_source=embed','Classic Snake')">PLAY NOW</button>
-        </div>
-      </article>
-
-      <article class="card" data-category="arcade">
-        <div class="art">🔢</div>
-        <div class="card-content">
-          <span class="small-tag">Puzzle · Numbers</span>
-          <h3>2048 Galaxy</h3>
-          <p>Combine number tiles and aim for 2048.</p>
-          <button class="btn" onclick="playExternalGame('https://gamezipper.com/2048/?utm_source=embed','2048 Galaxy')">PLAY NOW</button>
-        </div>
-      </article>
-
-      <article class="card" data-category="arcade">
-        <div class="art">🧱</div>
-        <div class="card-content">
-          <span class="small-tag">Arcade · Classic</span>
-          <h3>Tetris</h3>
-          <p>Fit falling blocks together to clear lines.</p>
-          <button class="btn" onclick="playExternalGame('https://gamezipper.com/tetris/?utm_source=embed','Tetris')">PLAY NOW</button>
-        </div>
-      </article>
-
-      <article class="card" data-category="arcade">
-        <div class="art">🏓</div>
-        <div class="card-content">
-          <span class="small-tag">Arcade · Classic</span>
-          <h3>Pong</h3>
-          <p>Keep the ball in play and beat your opponent.</p>
-          <button class="btn" onclick="playExternalGame('https://gamezipper.com/pong/?utm_source=embed','Pong')">PLAY NOW</button>
-        </div>
-      </article>
-
-      <article class="card" data-category="arcade">
-        <div class="art">🟠</div>
-        <div class="card-content">
-          <span class="small-tag">Arcade · Reflex</span>
-          <h3>Slope</h3>
-          <p>Guide a rolling ball and avoid obstacles.</p>
-          <button class="btn" onclick="playExternalGame('https://gamezipper.com/slope/?utm_source=embed','Slope')">PLAY NOW</button>
-        </div>
-      </article>
-
-      <article class="card" data-category="arcade">
-        <div class="art">🧱</div>
-        <div class="card-content">
-          <span class="small-tag">Arcade · Classic</span>
-          <h3>Brick Breaker</h3>
-          <p>Bounce the ball to break all the bricks.</p>
-          <button class="btn" onclick="playExternalGame('https://gamezipper.com/brick-breaker/?utm_source=embed','Brick Breaker')">PLAY NOW</button>
-        </div>
-      </article>
-
-      <article class="card" data-category="arcade">
-        <div class="art">🫧</div>
-        <div class="card-content">
-          <span class="small-tag">Arcade · Puzzle</span>
-          <h3>Bubble Shooter</h3>
-          <p>Match bubbles of the same colour to pop them.</p>
-          <button class="btn" onclick="playExternalGame('https://gamezipper.com/bubble-shooter/?utm_source=embed','Bubble Shooter')">PLAY NOW</button>
-        </div>
-      </article>
-
-      <article class="card" data-category="arcade">
-        <div class="art">🚗</div>
-        <div class="card-content">
-          <span class="small-tag">Puzzle · Cars</span>
-          <h3>Parking Jam</h3>
-          <p>Move cars in the right order to clear the way.</p>
-          <button class="btn" onclick="playExternalGame('https://gamezipper.com/parking-jam/?utm_source=embed','Parking Jam')">PLAY NOW</button>
-        </div>
-      </article>
-
-      <article class="card" data-category="arcade" id="mygames">
-        <div class="art own">🕹️</div>
-        <div class="card-content">
-          <span class="small-tag">Developer Collection</span>
-          <h3>My Own Games</h3>
-          <p>Your original games will appear here.</p>
-          <button class="btn" onclick="comingSoon()">COMING SOON</button>
-        </div>
-      </article>
-    </div>
-    <p id="noResults" class="muted" hidden>No games found.</p>
-  </section>
-
-  <section class="game-area" id="gameArea">
-    <h2>⭐ Neon Star Runner</h2>
-    <p class="muted">
-      Move using ← → keys, or tap the game to move.
-      Collect stars!
-    </p>
-    <h3>Score: <span id="score">0</span></h3>
-    <canvas id="board" width="600" height="350"></canvas>
-    <button class="btn" onclick="startGame()">RESTART</button>
-    <p id="status" class="muted" aria-live="polite"></p>
-  </section>
-
-  <section class="external-player" id="externalPlayer">
-    <div class="player-top">
-      <h2 id="externalTitle">Game Player</h2>
-      <button class="btn" onclick="closeExternalGame()">CLOSE GAME ✕</button>
-    </div>
-    <p class="muted">Game hosted by its publisher. If it does not load, open the game from its original website.</p>
-    <iframe id="externalFrame" title="Selected browser game" src="about:blank"
-      allow="autoplay; fullscreen; gamepad" allowfullscreen loading="lazy"
-      referrerpolicy="strict-origin-when-cross-origin"></iframe>
-  </section>
-</main>
-
-<footer>
-  <p>© 2026 <span>GameZone</span> — Built by an independent creator.</p>
-  <p>Play fair. Keep creating. Keep leveling up.</p>
-</footer>
-
+<header><a href="#home" class="logo">🎮 Game<span>Zone</span></a><nav><a href="#home">Home</a><a href="#games">Games</a></nav></header>
+<section class="hero" id="home"><div class="tag">YOUR NEXT GAMING DESTINATION</div><h1>PLAY MORE.<br><span>LEVEL UP.</span></h1><p>Play quick browser games right here. No extra downloads and no outside game links in this version.</p><a class="btn" href="#games">EXPLORE GAMES →</a></section>
+<main><section id="games"><div class="section-head"><h2>🔥 Game Library</h2><span class="muted" id="gameCount">6 games</span></div>
+<div class="toolbar"><input id="search" placeholder="🔍 Search games..." aria-label="Search games"><select id="category" aria-label="Filter games"><option value="all">All Categories</option><option value="arcade">Arcade</option><option value="puzzle">Puzzle</option><option value="classic">Classic</option></select></div>
+<div class="games" id="gameList">
+<article class="card" data-category="arcade"><div class="art">⭐</div><div class="card-content"><span class="small-tag">Arcade · Keyboard</span><h3>Neon Star Runner</h3><p>Move left and right to collect falling stars.</p><button class="btn" onclick="openGame('stars')">PLAY NOW</button></div></article>
+<article class="card" data-category="classic"><div class="art">🐍</div><div class="card-content"><span class="small-tag">Classic · Arrow Keys</span><h3>Snake</h3><p>Eat food, grow longer and avoid crashing.</p><button class="btn" onclick="openGame('snake')">PLAY NOW</button></div></article>
+<article class="card" data-category="puzzle"><div class="art">🔢</div><div class="card-content"><span class="small-tag">Puzzle · Arrow Keys</span><h3>2048</h3><p>Combine matching tiles to reach 2048.</p><button class="btn" onclick="openGame('2048')">PLAY NOW</button></div></article>
+<article class="card" data-category="classic"><div class="art">⭕</div><div class="card-content"><span class="small-tag">Classic · Two Players</span><h3>Tic-Tac-Toe</h3><p>Play X and O on the same computer.</p><button class="btn" onclick="openGame('tic')">PLAY NOW</button></div></article>
+<article class="card" data-category="puzzle"><div class="art">🧠</div><div class="card-content"><span class="small-tag">Puzzle · Memory</span><h3>Memory Match</h3><p>Flip cards and find matching pairs.</p><button class="btn" onclick="openGame('memory')">PLAY NOW</button></div></article>
+<article class="card" data-category="arcade"><div class="art">⚡</div><div class="card-content"><span class="small-tag">Arcade · Reflex</span><h3>Reaction Test</h3><p>Wait for green, then click as quickly as you can.</p><button class="btn" onclick="openGame('reaction')">PLAY NOW</button></div></article>
+</div><p id="noResults" class="muted" hidden>No games found.</p></section>
+<section class="game-area" id="gameArea"><h2 id="gameTitle">Game</h2><p id="gameHelp" class="muted"></p><h3 id="gameScore"></h3><canvas id="board" width="600" height="350" hidden></canvas><div id="gameBoard" class="game-board" hidden></div><div id="reactionPad" class="reaction-pad" hidden onclick="reactionClick()">Press START to begin</div><button class="btn" id="restartBtn" onclick="restartGame()">RESTART</button><button class="btn" onclick="closeGame()" style="margin-left:8px">CLOSE GAME ✕</button><p id="status" class="muted" aria-live="polite"></p></section></main>
+<footer><p>© 2026 <span>GameZone</span> — Built by an independent creator.</p><p>Play fair. Keep creating. Keep leveling up.</p></footer>
 <script>
-function playExternalGame(url, title) {
-  const player = document.getElementById("externalPlayer");
-  const frame = document.getElementById("externalFrame");
-  document.getElementById("externalTitle").textContent = title;
-  frame.src = url;
-  player.style.display = "block";
-  player.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function closeExternalGame() {
-  document.getElementById("externalFrame").src = "about:blank";
-  document.getElementById("externalPlayer").style.display = "none";
-}
-
-const search = document.getElementById("search");
-const category = document.getElementById("category");
-const cards = [...document.querySelectorAll("#gameList .card")];
-
-function filterGames() {
-  const q = search.value.toLowerCase().trim();
-  let visible = 0;
-
-  cards.forEach(card => {
-    const matchText = card.innerText.toLowerCase().includes(q);
-    const matchCategory =
-      category.value === "all" ||
-      card.dataset.category === category.value;
-
-    const show = matchText && matchCategory;
-    card.hidden = !show;
-    if (show) visible++;
-  });
-
-  document.getElementById("gameCount").textContent =
-    visible + (visible === 1 ? " game" : " games");
-
-  document.getElementById("noResults").hidden = visible !== 0;
-}
-
-search.addEventListener("input", filterGames);
-category.addEventListener("change", filterGames);
-
-function comingSoon() {
-  alert("This game has not been added yet. Stay tuned!");
-}
-
-const canvas = document.getElementById("board");
-const ctx = canvas.getContext("2d");
-const area = document.getElementById("gameArea");
-const scoreEl = document.getElementById("score");
-const statusEl = document.getElementById("status");
-
-let player, stars, score, running = false, frame = 0;
-const keys = {};
-
-function startGame() {
-  cancelAnimationFrame(frame);
-  area.style.display = "block";
-  area.scrollIntoView({ behavior: "smooth" });
-
-  player = { x: 285, y: 300, size: 25 };
-  stars = [];
-  score = 0;
-  running = true;
-  scoreEl.textContent = "0";
-  statusEl.textContent = "Game running! Collect the stars.";
-  draw();
-}
-
-document.addEventListener("keydown", e => {
-  if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
-    keys[e.key] = true;
-    if (running) e.preventDefault();
-  }
-});
-
-document.addEventListener("keyup", e => {
-  keys[e.key] = false;
-});
-
-canvas.addEventListener("pointerdown", e => {
-  if (!running) return;
-  const rect = canvas.getBoundingClientRect();
-  const x = (e.clientX - rect.left) * canvas.width / rect.width;
-  player.x = Math.max(0, Math.min(
-    canvas.width - player.size, x - player.size / 2
-  ));
-});
-
-function draw() {
-  if (!running) return;
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  if (keys.ArrowLeft) player.x -= 5;
-  if (keys.ArrowRight) player.x += 5;
-  player.x = Math.max(0, Math.min(
-    canvas.width - player.size, player.x
-  ));
-
-  if (Math.random() < 0.035) {
-    stars.push({
-      x: Math.random() * (canvas.width - 20),
-      y: -20,
-      speed: 2 + Math.random() * 2
-    });
-  }
-
-  ctx.fillStyle = "#8b5cf6";
-  ctx.fillRect(player.x, player.y, player.size, player.size);
-
-  ctx.font = "17px Arial";
-  ctx.fillStyle = "white";
-  ctx.fillText("YOU", player.x - 2, player.y - 8);
-
-  stars = stars.filter(star => {
-    star.y += star.speed;
-    ctx.font = "22px Arial";
-    ctx.fillText("⭐", star.x, star.y);
-
-    const hit =
-      player.x < star.x + 18 &&
-      player.x + player.size > star.x &&
-      player.y < star.y &&
-      player.y + player.size > star.y - 18;
-
-    if (hit) {
-      score++;
-      scoreEl.textContent = score;
-      return false;
-    }
-
-    return star.y < canvas.height + 25;
-  });
-
-  frame = requestAnimationFrame(draw);
-}
+const search=document.getElementById('search'),category=document.getElementById('category'),cards=[...document.querySelectorAll('#gameList .card')];
+function filterGames(){const q=search.value.toLowerCase().trim();let n=0;cards.forEach(c=>{const show=c.innerText.toLowerCase().includes(q)&&(category.value==='all'||c.dataset.category===category.value);c.hidden=!show;if(show)n++});document.getElementById('gameCount').textContent=n+' game'+(n===1?'':'s');document.getElementById('noResults').hidden=n!==0}
+search.addEventListener('input',filterGames);category.addEventListener('change',filterGames);
+const area=document.getElementById('gameArea'),title=document.getElementById('gameTitle'),help=document.getElementById('gameHelp'),scoreEl=document.getElementById('gameScore'),statusEl=document.getElementById('status'),canvas=document.getElementById('board'),ctx=canvas.getContext('2d'),board=document.getElementById('gameBoard'),reactionPad=document.getElementById('reactionPad');
+let current='',raf=0,score=0,keys={},player,stars=[],snake=[],food={},dir={x:1,y:0},nextDir={x:1,y:0},grid=[],turn='X',ticOver=false,memValues=[],memOpen=[],memMatched=[],memLock=false,reactionState='idle',reactionTimer=null,reactionStart=0,reactionBest=null;
+function openGame(g){current=g;area.style.display='block';area.scrollIntoView({behavior:'smooth',block:'start'});restartGame()}
+function closeGame(){cancelAnimationFrame(raf);clearTimeout(reactionTimer);area.style.display='none';current=''}
+function setup(name,description){document.getElementById('restartBtn').onclick=restartGame;document.getElementById('restartBtn').textContent='RESTART';title.textContent=name;help.textContent=description;scoreEl.textContent='';statusEl.textContent='';canvas.hidden=true;board.hidden=true;reactionPad.hidden=true;board.innerHTML='';cancelAnimationFrame(raf);clearTimeout(reactionTimer)}
+function restartGame(){if(!current)return;score=0;setup('', '');
+if(current==='stars'){title.textContent='⭐ Neon Star Runner';help.textContent='Use ← → keys or tap/click the canvas to move and collect stars.';canvas.hidden=false;player={x:285,y:300,size:25};stars=[];scoreEl.textContent='Score: 0';statusEl.textContent='Collect as many stars as you can.';drawStars()}
+if(current==='snake'){title.textContent='🐍 Snake';help.textContent='Use arrow keys. Eat the red food; do not hit the walls or yourself.';canvas.hidden=false;canvas.width=420;canvas.height=420;snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];dir={x:1,y:0};nextDir={x:1,y:0};placeFood();scoreEl.textContent='Score: 0';drawSnake()}
+if(current==='2048'){title.textContent='🔢 2048';help.textContent='Use arrow keys to slide tiles. Matching numbers combine.';board.hidden=false;board.className='game-board board-2048';grid=Array(16).fill(0);addTile();addTile();render2048();scoreEl.textContent='Use arrow keys';}
+if(current==='tic'){title.textContent='⭕ Tic-Tac-Toe';help.textContent='Two players take turns on the same device.';board.hidden=false;board.className='game-board tic-board';grid=Array(9).fill('');turn='X';ticOver=false;renderTic()}
+if(current==='memory'){title.textContent='🧠 Memory Match';help.textContent='Flip two cards at a time and find all matching pairs.';board.hidden=false;board.className='game-board memory-board';memValues=['🍒','🚀','🐸','🎮','⭐','🍕','🐼','⚽', '🍒','🚀','🐸','🎮','⭐','🍕','🐼','⚽'].sort(()=>Math.random()-.5);memOpen=[];memMatched=[];memLock=false;renderMemory();scoreEl.textContent='Pairs: 0 / 8'}
+if(current==='reaction'){title.textContent='⚡ Reaction Test';help.textContent='Press START, wait for the pad to turn green, then click it. Do not click early.';reactionPad.hidden=false;reactionPad.className='reaction-pad';reactionPad.textContent='Press START to begin';reactionState='idle';reactionBest=null;document.getElementById('restartBtn').textContent='START';scoreEl.textContent='Best: —'}}
+function drawStars(){if(current!=='stars')return;ctx.clearRect(0,0,canvas.width,canvas.height);if(keys.ArrowLeft)player.x-=5;if(keys.ArrowRight)player.x+=5;player.x=Math.max(0,Math.min(canvas.width-player.size,player.x));if(Math.random()<.035)stars.push({x:Math.random()*(canvas.width-20),y:-20,speed:2+Math.random()*2});ctx.fillStyle='#8b5cf6';ctx.fillRect(player.x,player.y,player.size,player.size);ctx.fillStyle='white';ctx.font='17px Arial';ctx.fillText('YOU',player.x-2,player.y-8);stars=stars.filter(s=>{s.y+=s.speed;ctx.font='22px Arial';ctx.fillText('⭐',s.x,s.y);if(player.x<s.x+18&&player.x+player.size>s.x&&player.y<s.y&&player.y+player.size>s.y-18){score++;scoreEl.textContent='Score: '+score;return false}return s.y<canvas.height+25});raf=requestAnimationFrame(drawStars)}
+function placeFood(){food={x:Math.floor(Math.random()*21),y:Math.floor(Math.random()*21)};while(snake.some(s=>s.x===food.x&&s.y===food.y))placeFood()}
+let snakeLast=0;function drawSnake(t=0){if(current!=='snake')return;if(t-snakeLast>105){snakeLast=t;dir=nextDir;let h={x:snake[0].x+dir.x,y:snake[0].y+dir.y};if(h.x<0||h.y<0||h.x>=21||h.y>=21||snake.some(s=>s.x===h.x&&s.y===h.y)){statusEl.textContent='Game over! Press RESTART to play again.';return}snake.unshift(h);if(h.x===food.x&&h.y===food.y){score++;scoreEl.textContent='Score: '+score;placeFood()}else snake.pop()}ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#ff526b';ctx.fillRect(food.x*20,food.y*20,18,18);snake.forEach((s,i)=>{ctx.fillStyle=i?'#22d3ee':'#8b5cf6';ctx.fillRect(s.x*20,s.y*20,18,18)});raf=requestAnimationFrame(drawSnake)}
+function addTile(){let empty=grid.map((v,i)=>v===0?i:-1).filter(i=>i>=0);if(empty.length)grid[empty[Math.floor(Math.random()*empty.length)]]=Math.random()<.9?2:4}
+function render2048(){board.innerHTML='';grid.forEach(v=>{let d=document.createElement('div');d.className='tile'+(v?' v'+Math.min(v,2048):'');d.textContent=v||'';board.appendChild(d)});scoreEl.textContent='Tiles: '+grid.filter(Boolean).length+' filled'}
+function move2048(key){let old=grid.join(',');let rows=[];for(let r=0;r<4;r++)rows.push(grid.slice(r*4,r*4+4));if(key==='ArrowUp'||key==='ArrowDown'){rows=Array.from({length:4},(_,c)=>rows.map(row=>row[c]));}rows=rows.map(row=>{if(key==='ArrowRight'||key==='ArrowDown')row.reverse();let a=row.filter(Boolean);for(let i=0;i<a.length-1;i++){if(a[i]===a[i+1]){a[i]*=2;a.splice(i+1,1)}}while(a.length<4)a.push(0);if(key==='ArrowRight'||key==='ArrowDown')a.reverse();return a});if(key==='ArrowUp'||key==='ArrowDown'){grid=Array.from({length:16},(_,i)=>rows[i%4][Math.floor(i/4)])}else grid=rows.flat();if(grid.join(',')!==old){addTile();render2048();if(grid.includes(2048))statusEl.textContent='You reached 2048! Keep playing or restart.'}}
+const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+function renderTic(){board.innerHTML='';grid.forEach((v,i)=>{let b=document.createElement('button');b.className='tic-cell';b.textContent=v;b.onclick=()=>{if(v||ticOver)return;grid[i]=turn;let w=wins.some(line=>line.every(j=>grid[j]===turn));if(w){statusEl.textContent=turn+' wins!';ticOver=true}else if(grid.every(Boolean)){statusEl.textContent="It's a draw!";ticOver=true}else turn=turn==='X'?'O':'X';scoreEl.textContent=ticOver?'Game finished':'Turn: '+turn;renderTic()};board.appendChild(b)});if(!ticOver)scoreEl.textContent='Turn: '+turn}
+function renderMemory(){board.innerHTML='';memValues.forEach((v,i)=>{let b=document.createElement('button');b.className='memory-card';b.textContent=memMatched.includes(i)||memOpen.includes(i)?v:'?';b.onclick=()=>{if(memLock||memMatched.includes(i)||memOpen.includes(i))return;memOpen.push(i);renderMemory();if(memOpen.length===2){memLock=true;if(memValues[memOpen[0]]===memValues[memOpen[1]]){memMatched.push(...memOpen);memOpen=[];memLock=false;scoreEl.textContent='Pairs: '+memMatched.length/2+' / 8';if(memMatched.length===16)statusEl.textContent='Amazing! You matched every pair.';renderMemory()}else setTimeout(()=>{memOpen=[];memLock=false;renderMemory()},750)}};board.appendChild(b)})}
+function reactionClick(){if(reactionState==='idle'){statusEl.textContent='Press START first.';return}if(reactionState==='waiting'){clearTimeout(reactionTimer);reactionState='early';reactionPad.className='reaction-pad wait';reactionPad.textContent='Too soon! Press RESTART';statusEl.textContent='Wait for green next time.';return}if(reactionState==='ready'){let ms=Math.round(performance.now()-reactionStart);reactionState='done';reactionPad.className='reaction-pad';reactionPad.textContent=ms+' ms — click RESTART to try again';scoreEl.textContent='Reaction time: '+ms+' ms';statusEl.textContent=ms<250?'Lightning fast!':(ms<400?'Good reaction!':'Keep practising!');document.getElementById('restartBtn').textContent='TRY AGAIN'}}
+function startReaction(){reactionState='waiting';reactionPad.className='reaction-pad wait';reactionPad.textContent='Wait for green…';statusEl.textContent='Do not click yet!';document.getElementById('restartBtn').textContent='WAIT…';reactionTimer=setTimeout(()=>{if(current==='reaction'&&reactionState==='waiting'){reactionState='ready';reactionStart=performance.now();reactionPad.className='reaction-pad ready';reactionPad.textContent='CLICK NOW!';document.getElementById('restartBtn').textContent='TRY AGAIN'}},1200+Math.random()*2500)}
+function restartCurrentReaction(){reactionState='idle';reactionPad.className='reaction-pad';reactionPad.textContent='Press START to begin';statusEl.textContent='';scoreEl.textContent='Best: —';document.getElementById('restartBtn').textContent='START'}
+function restartGame(){if(!current)return;score=0;setup('','');if(current==='stars'){title.textContent='⭐ Neon Star Runner';help.textContent='Use ← → keys or tap/click the canvas to move and collect stars.';canvas.width=600;canvas.height=350;canvas.hidden=false;player={x:285,y:300,size:25};stars=[];scoreEl.textContent='Score: 0';statusEl.textContent='Collect as many stars as you can.';drawStars()}else if(current==='snake'){title.textContent='🐍 Snake';help.textContent='Use arrow keys. Eat the red food; avoid walls and yourself.';canvas.width=420;canvas.height=420;canvas.hidden=false;snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];dir={x:1,y:0};nextDir={x:1,y:0};snakeLast=0;placeFood();scoreEl.textContent='Score: 0';drawSnake()}else if(current==='2048'){title.textContent='🔢 2048';help.textContent='Use arrow keys to slide tiles. Matching numbers combine.';board.hidden=false;board.className='game-board board-2048';grid=Array(16).fill(0);addTile();addTile();render2048();statusEl.textContent=''}else if(current==='tic'){title.textContent='⭕ Tic-Tac-Toe';help.textContent='Two players take turns on the same device.';board.hidden=false;board.className='game-board tic-board';grid=Array(9).fill('');turn='X';ticOver=false;renderTic();statusEl.textContent=''}else if(current==='memory'){title.textContent='🧠 Memory Match';help.textContent='Flip two cards at a time and find all matching pairs.';board.hidden=false;board.className='game-board memory-board';memValues=['🍒','🚀','🐸','🎮','⭐','🍕','🐼','⚽','🍒','🚀','🐸','🎮','⭐','🍕','🐼','⚽'].sort(()=>Math.random()-.5);memOpen=[];memMatched=[];memLock=false;renderMemory();scoreEl.textContent='Pairs: 0 / 8';statusEl.textContent=''}else if(current==='reaction'){title.textContent='⚡ Reaction Test';help.textContent='Press START, wait for green, then click the pad. Do not click early.';reactionPad.hidden=false;reactionState='idle';reactionPad.className='reaction-pad';reactionPad.textContent='Press START to begin';document.getElementById('restartBtn').textContent='START';document.getElementById('restartBtn').onclick=()=>{if(reactionState==='idle'||reactionState==='done'||reactionState==='early')startReaction();else statusEl.textContent='Wait for green!'};scoreEl.textContent='Reaction time: —';statusEl.textContent=''}}
+document.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)&&current){if(current==='stars'){keys[e.key]=true;e.preventDefault()}else if(current==='snake'){const m={ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0},ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1}};let d=m[e.key];if(d.x!==-dir.x||d.y!==-dir.y)nextDir=d;e.preventDefault()}else if(current==='2048'){move2048(e.key);e.preventDefault()}}});
+document.addEventListener('keyup',e=>{keys[e.key]=false});
+canvas.addEventListener('pointerdown',e=>{if(current!=='stars')return;const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*canvas.width/r.width;player.x=Math.max(0,Math.min(canvas.width-player.size,x-player.size/2))});
 </script>
 </body>
 </html>
