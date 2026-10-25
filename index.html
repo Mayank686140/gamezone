@@ -66,7 +66,75 @@ function reactionClick(){if(reactionState==='idle'){statusEl.textContent='Press 
 function startReaction(){reactionState='waiting';reactionPad.className='reaction-pad wait';reactionPad.textContent='Wait for green…';statusEl.textContent='Do not click yet!';document.getElementById('restartBtn').textContent='WAIT…';reactionTimer=setTimeout(()=>{if(current==='reaction'&&reactionState==='waiting'){reactionState='ready';reactionStart=performance.now();reactionPad.className='reaction-pad ready';reactionPad.textContent='CLICK NOW!';document.getElementById('restartBtn').textContent='TRY AGAIN'}},1200+Math.random()*2500)}
 function restartCurrentReaction(){reactionState='idle';reactionPad.className='reaction-pad';reactionPad.textContent='Press START to begin';statusEl.textContent='';scoreEl.textContent='Best: —';document.getElementById('restartBtn').textContent='START'}
 function restartGame(){if(!current)return;score=0;setup('','');if(current==='stars'){title.textContent='⭐ Neon Star Runner';help.textContent='Use ← → keys or tap/click the canvas to move and collect stars.';canvas.width=600;canvas.height=350;canvas.hidden=false;player={x:285,y:300,size:25};stars=[];scoreEl.textContent='Score: 0';statusEl.textContent='Collect as many stars as you can.';drawStars()}else if(current==='snake'){title.textContent='🐍 Snake';help.textContent='Use arrow keys. Eat the red food; avoid walls and yourself.';canvas.width=420;canvas.height=420;canvas.hidden=false;snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];dir={x:1,y:0};nextDir={x:1,y:0};snakeLast=0;placeFood();scoreEl.textContent='Score: 0';drawSnake()}else if(current==='2048'){title.textContent='🔢 2048';help.textContent='Use arrow keys to slide tiles. Matching numbers combine.';board.hidden=false;board.className='game-board board-2048';grid=Array(16).fill(0);addTile();addTile();render2048();statusEl.textContent=''}else if(current==='tic'){title.textContent='⭕ Tic-Tac-Toe';help.textContent='Two players take turns on the same device.';board.hidden=false;board.className='game-board tic-board';grid=Array(9).fill('');turn='X';ticOver=false;renderTic();statusEl.textContent=''}else if(current==='memory'){title.textContent='🧠 Memory Match';help.textContent='Flip two cards at a time and find all matching pairs.';board.hidden=false;board.className='game-board memory-board';memValues=['🍒','🚀','🐸','🎮','⭐','🍕','🐼','⚽','🍒','🚀','🐸','🎮','⭐','🍕','🐼','⚽'].sort(()=>Math.random()-.5);memOpen=[];memMatched=[];memLock=false;renderMemory();scoreEl.textContent='Pairs: 0 / 8';statusEl.textContent=''}else if(current==='reaction'){title.textContent='⚡ Reaction Test';help.textContent='Press START, wait for green, then click the pad. Do not click early.';reactionPad.hidden=false;reactionState='idle';reactionPad.className='reaction-pad';reactionPad.textContent='Press START to begin';document.getElementById('restartBtn').textContent='START';document.getElementById('restartBtn').onclick=()=>{if(reactionState==='idle'||reactionState==='done'||reactionState==='early')startReaction();else statusEl.textContent='Wait for green!'};scoreEl.textContent='Reaction time: —';statusEl.textContent=''}}
-document.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)&&current){if(current==='stars'){keys[e.key]=true;e.preventDefault()}else if(current==='snake'){const m={ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0},ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1}};let d=m[e.key];if(d.x!==-dir.x||d.y!==-dir.y)nextDir=d;e.preventDefault()}else if(current==='2048'){move2048(e.key);e.preventDefault()}}});
+
+document.addEventListener('keydown', e => {
+  if (!current || area.style.display === 'none') return;
+
+  const key = e.key.toLowerCase();
+
+  const directions = {
+    arrowleft:  { x: -1, y: 0 },
+    a:          { x: -1, y: 0 },
+    arrowright: { x: 1, y: 0 },
+    d:          { x: 1, y: 0 },
+    arrowup:    { x: 0, y: -1 },
+    w:          { x: 0, y: -1 },
+    arrowdown:  { x: 0, y: 1 },
+    s:          { x: 0, y: 1 }
+  };
+
+  if (current === 'stars') {
+    if (key === 'arrowleft' || key === 'a') {
+      keys.ArrowLeft = true;
+      e.preventDefault();
+    }
+
+    if (key === 'arrowright' || key === 'd') {
+      keys.ArrowRight = true;
+      e.preventDefault();
+    }
+  }
+
+  if (current === 'snake') {
+    const d = directions[key];
+
+    if (d) {
+      if (d.x !== -dir.x || d.y !== -dir.y) {
+        nextDir = d;
+      }
+      e.preventDefault();
+    }
+  }
+
+  if (current === '2048') {
+    const mappedKey = {
+      a: 'ArrowLeft',
+      d: 'ArrowRight',
+      w: 'ArrowUp',
+      s: 'ArrowDown'
+    };
+
+    const moveKey = mappedKey[key] || e.key;
+
+    if (directions[key] || e.key.startsWith('Arrow')) {
+      move2048(moveKey);
+      e.preventDefault();
+    }
+  }
+});
+
+document.addEventListener('keyup', e => {
+  const key = e.key.toLowerCase();
+
+  if (key === 'arrowleft' || key === 'a') {
+    keys.ArrowLeft = false;
+  }
+
+  if (key === 'arrowright' || key === 'd') {
+    keys.ArrowRight = false;
+  }
+});
+
 document.addEventListener('keyup',e=>{keys[e.key]=false});
 canvas.addEventListener('pointerdown',e=>{if(current!=='stars')return;const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*canvas.width/r.width;player.x=Math.max(0,Math.min(canvas.width-player.size,x-player.size/2))});
 </script>
